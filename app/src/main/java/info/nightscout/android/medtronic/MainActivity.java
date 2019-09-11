@@ -42,6 +42,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,6 +71,7 @@ import info.nightscout.android.eula.Eula;
 import info.nightscout.android.eula.Eula.OnEulaAgreedTo;
 import info.nightscout.android.history.PumpHistoryParser;
 import info.nightscout.android.medtronic.service.MasterService;
+import info.nightscout.android.medtronic.setup.SetupActivity;
 import info.nightscout.android.model.medtronicNg.PumpHistoryCGM;
 import info.nightscout.android.model.medtronicNg.PumpStatusEvent;
 import info.nightscout.android.settings.SettingsActivity;
@@ -231,12 +233,16 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             getSupportActionBar().setElevation(0);
-            getSupportActionBar().setTitle("Nightscout");
+            getSupportActionBar().setTitle(R.string.toolbar_title);
         }
 
         final PrimaryDrawerItem itemSettings = new PrimaryDrawerItem()
                 .withName(R.string.main_menu__settings)
                 .withIcon(GoogleMaterial.Icon.gmd_settings)
+                .withSelectable(false);
+        final PrimaryDrawerItem itemEndpoint = new PrimaryDrawerItem()
+                .withName("Setup endpoint")
+                .withIcon(GoogleMaterial.Icon.gmd_room_service)
                 .withSelectable(false);
         final PrimaryDrawerItem itemRegisterUsb = new PrimaryDrawerItem()
                 .withName(R.string.main_menu__registered_devices)
@@ -278,9 +284,10 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
                 .withSelectedItem(-1)
                 .addDrawerItems(
                         itemSettings,
+                        itemEndpoint,
                         itemRegisterUsb,
                         itemCheckForUpdate,
-                        itemUpdateProfile,
+//                        itemUpdateProfile,
                         itemClearLog,
                         itemGetNow,
                         itemStopCollecting
@@ -290,6 +297,10 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if (drawerItem.equals(itemSettings)) {
                             openSettings();
+                        } else if (drawerItem.equals(itemEndpoint)) {
+                            final Intent intent = new Intent(MainActivity.this, SetupActivity.class);
+                            intent.putExtra(SetupActivity.INTENT_RETURN, true);
+                            startActivity(intent);
                         } else if (drawerItem.equals(itemRegisterUsb)) {
                             openUsbRegistration();
                         } else if (drawerItem.equals(itemStopCollecting)) {
@@ -362,7 +373,7 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
                 }
         );
 
-        updateChart(null, now);
+//        updateChart(null, now);
 
         mChart.setOnTouchListener(new OnSwipeTouchListener(mContext)
         {
@@ -400,13 +411,13 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
 
         });
 
-        mChart.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+        /*mChart.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                 Log.d(TAG, "onLayoutChange called");
                 refreshDisplayChart();
             }
-        });
+        });*/
 
         findViewById(R.id.view_sgv).setOnClickListener(new View.OnClickListener()
         {
@@ -422,7 +433,19 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
 
         if (!landscape)
             userLogDisplay = new UserLogDisplay(mContext);
+
+        mVisualizationReceiver = new VisualizationReceiver(
+                (ImageView) findViewById(R.id.pump_icon),
+                (ImageView) findViewById(R.id.meter_icon),
+                (ImageView) findViewById(R.id.device_icon),
+                (ImageView) findViewById(R.id.upload_icon),
+                (ImageView) findViewById(R.id.cloud_icon),
+                (ImageView) findViewById(R.id.check_icon)
+        );
+        registerReceiver(mVisualizationReceiver, VisualizationReceiver.createReceiverFilter());
     }
+
+    private VisualizationReceiver mVisualizationReceiver;
 
     private void setScreenSleepMode() {
         if (mChart != null) {
@@ -610,11 +633,13 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
     @Override
     protected void onResume() {
         Log.d(TAG, "onResume called");
+        mVisualizationReceiver.onResume();
         super.onResume();
     }
 
     protected void onPause() {
         Log.d(TAG, "onPause called");
+        mVisualizationReceiver.onPause();
         super.onPause();
     }
 
@@ -626,7 +651,6 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
         if (appUpdater != null) appUpdater.stop();
         if (userLogDisplay != null) userLogDisplay.stop();
         stopDisplay();
-
         closeRealm();
     }
 
@@ -639,6 +663,9 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
 
         if (!mEnableCgmService) stopMasterService();
         if (realmAsyncTask != null) realmAsyncTask.cancel();
+
+        unregisterReceiver(mVisualizationReceiver);
+        mVisualizationReceiver = null;
 
         shutdownMessage();
 

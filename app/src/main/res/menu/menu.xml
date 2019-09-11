@@ -13,6 +13,7 @@
         android:id="@+id/action_menu_status"
         android:icon="@drawable/ic_launcher"
         android:orderInCategory="100"
+        android:visible="false"
         app:showAsAction="always"
         android:title="@string/main_screen__icon_nightscout_status"/>
 </menu>

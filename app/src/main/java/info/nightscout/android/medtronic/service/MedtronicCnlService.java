@@ -34,6 +34,7 @@ import info.nightscout.android.history.PumpHistoryHandler;
 import info.nightscout.android.history.PumpHistoryParser;
 import info.nightscout.android.medtronic.Stats;
 import info.nightscout.android.medtronic.UserLogMessage;
+import info.nightscout.android.medtronic.VisualizationReceiver;
 import info.nightscout.android.medtronic.exception.ChecksumException;
 import info.nightscout.android.medtronic.exception.EncryptionException;
 import info.nightscout.android.medtronic.exception.IntegrityException;
@@ -361,6 +362,8 @@ CNL: unpaired PUMP: unpaired UPLOADER: unregistered = "Invalid message received 
                 final MedtronicCnlReader cnlReader = new MedtronicCnlReader(mHidDevice);
                 if (dataStore.isSysEnableWait500ms()) cnlReader.setCnlCommandMessageSleepMS(500);
 
+                sendBroadcast(VisualizationReceiver.downloadStatus(VisualizationReceiver.STATUS_DOWNLOAD_CONNECTED));
+
                 try {
                     Log.d(TAG, "Connecting to Contour Next Link [pid" + android.os.Process.myPid() + "]");
                     UserLogMessage.send(mContext, R.string.ul_poll__connecting_to_contour_next_link);
@@ -429,6 +432,8 @@ CNL: unpaired PUMP: unpaired UPLOADER: unregistered = "Invalid message received 
                                     .lastConnect()
                                     .process();
 
+                            sendBroadcast(VisualizationReceiver.downloadStatus(VisualizationReceiver.STATUS_DOWNLOAD_PUMP_ERROR));
+
                         } else if (cnlReader.getPumpSession().getRadioRSSIpercentage() < dataStore.getSysRssiAllowConnect()) {
                             Log.i(TAG, "Warning: pump signal too weak. Is it nearby?");
                             UserLogMessage.send(mContext, String.format("{id;%s} %s  {id;%s}: %s%%",
@@ -443,6 +448,8 @@ CNL: unpaired PUMP: unpaired UPLOADER: unregistered = "Invalid message received 
                             pumpHistoryHandler.systemEvent(PumpHistorySystem.STATUS.COMMS_PUMP_LOST)
                                     .lastConnect()
                                     .process();
+
+                            sendBroadcast(VisualizationReceiver.downloadStatus(VisualizationReceiver.STATUS_DOWNLOAD_PUMP_ERROR));
 
                         } else {
                             if (commsConnectError > 0) commsConnectError--;
@@ -459,6 +466,8 @@ CNL: unpaired PUMP: unpaired UPLOADER: unregistered = "Invalid message received 
                                     radioChannel,
                                     R.string.ul_poll__rssi,
                                     cnlReader.getPumpSession().getRadioRSSIpercentage()));
+
+                            sendBroadcast(VisualizationReceiver.downloadStatus(VisualizationReceiver.STATUS_DOWNLOAD_DOWNLOADING));
 
                             // read pump status
                             final PumpStatusEvent pumpRecord = new PumpStatusEvent();
@@ -645,6 +654,8 @@ CNL: unpaired PUMP: unpaired UPLOADER: unregistered = "Invalid message received 
 
                     RemoveOutdatedRecords();
                     statusWarnings();
+
+                    sendBroadcast(VisualizationReceiver.downloadStatus(VisualizationReceiver.STATUS_DOWNLOAD_DONE));
                 }
 
             } catch (Exception e) {

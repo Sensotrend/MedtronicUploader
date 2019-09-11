@@ -9,7 +9,7 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
         </android.support.v7.widget.Toolbar>
 
@@ -38,6 +38,7 @@
             android:layout_height="wrap_content"
             android:text="@string/dots"
             android:textAppearance="?android:attr/textAppearanceMedium"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@+id/textview_units"
             app:layout_constraintStart_toStartOf="@+id/textview_bg"
             app:layout_constraintTop_toTopOf="parent" />
@@ -52,6 +53,7 @@
             android:textAlignment="center"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="70sp"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/textview_iob"
             app:layout_constraintEnd_toStartOf="@+id/textview_units"
             app:layout_constraintHorizontal_chainStyle="packed"
@@ -66,6 +68,7 @@
             android:text="@string/dash"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="40sp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/textview_bg"
             app:layout_constraintEnd_toEndOf="@+id/textview_units"
             app:layout_constraintStart_toStartOf="@+id/textview_units"
@@ -78,6 +81,7 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:text="@string/glucose_mgdl"
+            android:visibility="gone"
             android:textAppearance="?android:attr/textAppearanceSmall"
             app:layout_constraintBottom_toBottomOf="@+id/textview_bg"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,6 +93,7 @@
             android:layout_height="wrap_content"
             android:text="@string/main_screen__active_insulin"
             android:textAppearance="?android:attr/textAppearanceMedium"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/textview_bg_time"
             app:layout_constraintStart_toStartOf="@+id/textview_bg_time"
@@ -96,10 +101,97 @@
 
     </android.support.constraint.ConstraintLayout>
 
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        >
+
+        <ImageView
+            android:id="@+id/cloud_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_cloud"
+            android:tint="@color/enabled_icon"
+            android:paddingBottom="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <ImageView
+            android:id="@+id/check_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check"
+            android:paddingTop="4dp"
+            app:layout_constraintTop_toTopOf="@id/cloud_icon"
+            app:layout_constraintBottom_toBottomOf="@id/cloud_icon"
+            app:layout_constraintStart_toStartOf="@id/cloud_icon"
+            app:layout_constraintEnd_toEndOf="@id/cloud_icon"
+            android:tint="#4b4"
+            />
+
+        <ImageView
+            android:id="@+id/upload_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_signal"
+            android:tint="@color/enabled_icon"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@id/cloud_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <ImageView
+            android:id="@+id/pump_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_pump"
+            tools:tint="@color/enabled_icon"
+            app:layout_constraintTop_toBottomOf="@id/cloud_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/device_icon"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            />
+
+        <ImageView
+            android:id="@+id/device_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_device_anim"
+            app:layout_constraintEnd_toStartOf="@id/meter_icon"
+            app:layout_constraintStart_toEndOf="@id/pump_icon"
+            app:layout_constraintTop_toTopOf="@id/pump_icon"
+            app:layout_constraintBottom_toBottomOf="@id/pump_icon"
+            />
+
+        <ImageView
+            android:id="@+id/meter_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_contour"
+            tools:tint="@color/enabled_icon"
+            app:layout_constraintTop_toBottomOf="@id/cloud_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/device_icon"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:minHeight="1px"
+        android:background="#2888"
+        />
+
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        >
 
         <info.nightscout.android.medtronic.ChartSgv
             android:id="@+id/chart"

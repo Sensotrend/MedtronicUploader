@@ -21,6 +21,7 @@ import info.nightscout.android.medtronic.setup.ui.address.AddressFragment;
 
 public class SetupActivity extends AppCompatActivity implements SetupNavigationHandler {
     private String TAG = getClass().getSimpleName();
+    public static final String INTENT_RETURN = "saReturn";
 
     public static boolean needsStarting(Context context) {
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -56,7 +57,9 @@ public class SetupActivity extends AppCompatActivity implements SetupNavigationH
         //noinspection SwitchStatementWithTooFewBranches
         switch (part) {
             case ADDRESS:
-                startActivity(new Intent(this, MainActivity.class));
+                if (!getIntent().getBooleanExtra(INTENT_RETURN, false)) {
+                    startActivity(new Intent(this, MainActivity.class));
+                }
                 finish();
                 break;
             default:

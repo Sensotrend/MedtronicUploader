@@ -75,7 +75,7 @@
     <!-- EULA -->
 
     <string name="eula__title">Disclaimer</string>
-    <string name="eula__message">Nightscout should not be used to make medical decisions. There is no support or any warranty of any kind. The quality and performance of the project is with you. This is a project that was created and is supported completely by volunteers. This means that you accept that using this application is at your own risk. Nightscout developers accept no liability for the consequences of any actions taken on the basis of the information provided. If you are not sure of how to use this application you must not use it.</string>
+    <string name="eula__message">Sensotrend should not be used to make medical decisions. There is no support or any warranty of any kind. The quality and performance of the project is with you. This is a project that was created and is supported completely by volunteers. This means that you accept that using this application is at your own risk. Sensotrend developers accept no liability for the consequences of any actions taken on the basis of the information provided. If you are not sure of how to use this application you must not use it.</string>
     <string name="eula__accept">Accept</string>
     <string name="eula__refuse">Refuse</string>
 
@@ -146,7 +146,7 @@
     <string name="ul_main__requesting_pump_profile">Scheduled pump profile update&dots;</string>
     <string name="ul_main__cgm_service_disabled">CGM Service is disabled.</string>
     <string name="ul_main__pump_profile_disabled">Profile update is disabled.</string>
-    <string name="ul_main__hello">Nightscout 600 Series Uploader</string>
+    <string name="ul_main__hello">Sensotrend 600 Series Uploader</string>
     <string name="ul_main__goodbye">Goodbye :)</string>
     <string name="ul_main__shutting_down_cgm_service">Shutting down CGM Service</string>
     <string name="ul_main__uploading">Uploading</string>
