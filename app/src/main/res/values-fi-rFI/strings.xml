@@ -105,7 +105,7 @@
     <string name="ul_main__requesting_pump_profile">Scheduled pump profile update&dots;</string>
     <string name="ul_main__cgm_service_disabled">CGM Service is disabled.</string>
     <string name="ul_main__pump_profile_disabled">Profile update is disabled.</string>
-    <string name="ul_main__hello">Nightscout 600 Series Uploader</string>
+    <string name="ul_main__hello">Sensotrend 600 Series Uploader</string>
     <string name="ul_main__goodbye">Goodbye :)</string>
     <string name="ul_main__shutting_down_cgm_service">Shutting down CGM Service</string>
     <string name="ul_main__uploading">Uploading</string>

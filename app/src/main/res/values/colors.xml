@@ -1,5 +1,9 @@
 <resources>
 
     <color name="black_overlay">#66000000</color>
+    <color name="white_overlay">#99ffffff</color>
 
+    <color name="enabled_icon">#5c89c7</color>
+    <color name="error_icon">#882222</color>
+    <color name="disabled_icon">#80888888</color>
 </resources>

@@ -1,20 +1,19 @@
 package info.nightscout.android;
 
-import android.app.Application;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.bugfender.sdk.Bugfender;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 
-import info.nightscout.android.model.medtronicNg.PumpHistoryMarker;
-import info.nightscout.android.model.medtronicNg.PumpHistorySystem;
 import info.nightscout.android.model.medtronicNg.ContourNextLinkInfo;
+import info.nightscout.android.model.medtronicNg.HistorySegment;
 import info.nightscout.android.model.medtronicNg.PumpHistoryAlarm;
 import info.nightscout.android.model.medtronicNg.PumpHistoryBG;
 import info.nightscout.android.model.medtronicNg.PumpHistoryBasal;
@@ -22,17 +21,18 @@ import info.nightscout.android.model.medtronicNg.PumpHistoryBolus;
 import info.nightscout.android.model.medtronicNg.PumpHistoryCGM;
 import info.nightscout.android.model.medtronicNg.PumpHistoryDaily;
 import info.nightscout.android.model.medtronicNg.PumpHistoryLoop;
+import info.nightscout.android.model.medtronicNg.PumpHistoryMarker;
 import info.nightscout.android.model.medtronicNg.PumpHistoryMisc;
 import info.nightscout.android.model.medtronicNg.PumpHistoryPattern;
 import info.nightscout.android.model.medtronicNg.PumpHistoryProfile;
-import info.nightscout.android.model.medtronicNg.HistorySegment;
 import info.nightscout.android.model.medtronicNg.PumpHistorySettings;
+import info.nightscout.android.model.medtronicNg.PumpHistorySystem;
 import info.nightscout.android.model.medtronicNg.PumpInfo;
 import info.nightscout.android.model.medtronicNg.PumpStatusEvent;
 import info.nightscout.android.model.store.DataStore;
 import info.nightscout.android.model.store.StatCnl;
-import info.nightscout.android.model.store.StatPoll;
 import info.nightscout.android.model.store.StatNightscout;
+import info.nightscout.android.model.store.StatPoll;
 import info.nightscout.android.model.store.StatPushover;
 import info.nightscout.android.model.store.UserLog;
 import info.nightscout.android.utils.FormatKit;
@@ -45,7 +45,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 /**
  * Created by lgoedhart on 9/06/2016.
  */
-public class UploaderApplication extends Application {
+public class UploaderApplication extends MultiDexApplication {
     private static final String TAG = UploaderApplication.class.getSimpleName();
 
     private static RealmConfiguration storeConfiguration;

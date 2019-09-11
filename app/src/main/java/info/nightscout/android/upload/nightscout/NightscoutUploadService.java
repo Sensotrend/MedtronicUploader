@@ -16,6 +16,7 @@ import info.nightscout.android.UploaderApplication;
 import info.nightscout.android.history.PumpHistoryHandler;
 import info.nightscout.android.medtronic.Stats;
 import info.nightscout.android.medtronic.UserLogMessage;
+import info.nightscout.android.medtronic.VisualizationReceiver;
 import info.nightscout.android.medtronic.service.MasterService;
 import info.nightscout.android.model.medtronicNg.PumpHistoryInterface;
 import info.nightscout.android.model.medtronicNg.PumpStatusEvent;
@@ -105,10 +106,22 @@ public class NightscoutUploadService extends Service {
                     realm = Realm.getDefaultInstance();
 
                     do {
+                        sendBroadcast(VisualizationReceiver.uploadStatus(VisualizationReceiver.STATUS_UPLOAD_STARTED));
+                        final int eCount = statNightscout.getError();
+                        final int rCount = statNightscout.getTotalRecords();
+
                         rerun = false;
 
                         updateDB();
                         uploadRecords();
+
+                        if (statNightscout.getError() > eCount) {
+                            sendBroadcast(VisualizationReceiver.uploadStatus(VisualizationReceiver.STATUS_UPLOAD_FAILED));
+                        } else if (statNightscout.getTotalRecords() > rCount) {
+                            sendBroadcast(VisualizationReceiver.uploadStatus(VisualizationReceiver.STATUS_UPLOAD_DONE));
+                        } else {
+                            sendBroadcast(VisualizationReceiver.uploadStatus(VisualizationReceiver.STATUS_UPLOAD_NOTHING_DONE));
+                        }
 
                         if (rerun) {
 

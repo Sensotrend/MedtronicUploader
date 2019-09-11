@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Not really non-translatable, but still a name. -->
+    <string name="toolbar_title" translatable="false">Sensotrend</string>
+
+</resources>

@@ -34,15 +34,15 @@ public class UserLogAdapter
     private final static int FADE_DURATION_MS = 400;
 
     // HSV Hue 0-360 Saturation 0-1 Value 0-1
-    private final static float[] WARN_HSV = new float[] {60f, .85f, 1f};
-    private final static float[] CGM_HSV =new float[] {0f, .22f, 1f};
-    private final static float[] HISTORY_HSV = new float[] {270f, .22f, 1f};
+    private final static float[] WARN_HSV = new float[] {41f, .831f, 0.694f};
+    private final static float[] CGM_HSV =new float[] {0f, .344f, .706f};
+    private final static float[] HISTORY_HSV = new float[] {270f, .418f, .667f};
     private final static float[] HEART_HSV = new float[] {0f, 1f, 1f};
-    private final static float[] SHARE_HSV = new float[] {125f, .22f, 1f};
-    private final static float[] PUSHOVER_HSV = new float[] {40f, .22f, 1f};
-    private final static float[] NOTE_HSV = new float[] {0f, 0f, .9f};
-    private final static float[] ESTIMATE_HSV = new float[] {185f, .22f, 1f};
-    private final static float[] ISIG_HSV = new float[] {185f, .22f, 1f};
+    private final static float[] SHARE_HSV = new float[] {125f, .394f, .667f};
+    private final static float[] PUSHOVER_HSV = new float[] {40f, .538f, .678f};
+    private final static float[] NOTE_HSV = new float[] {0f, 0f, .325f};
+    private final static float[] ESTIMATE_HSV = new float[] {185f, .324f, .533f};
+    private final static float[] ISIG_HSV = new float[] {185f, .324f, .533f};
 
     private final static float HIGHLIGHT = 1.35f;
     private final static float LOWLIGHT = 0.65f;
@@ -240,9 +240,9 @@ public class UserLogAdapter
         if (high > 0xFF) high = 0xFF;
         if (low > 0xFF) low = 0xFF;
 
-        cNormal = Color.HSVToColor(normal, new float[] {hsv[0], hsv[1], 1.f});
-        cHigh = Color.HSVToColor(high, new float[] {hsv[0], hsv[1], 1.f});
-        cLow = Color.HSVToColor(low, new float[] {hsv[0], hsv[1], 1.f});
+        cNormal = Color.HSVToColor(normal, hsv);
+        cHigh = Color.HSVToColor(high, hsv);
+        cLow = Color.HSVToColor(low, hsv);
 
         Log.d(TAG, String.format("textColor: %08x textSize: %s normal: %08x high: %08x low: %08x", c, s, cNormal, cHigh, cLow));
 

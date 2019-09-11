@@ -85,6 +85,7 @@ android {
         versionName = dev ? devName : generateVersionName()
         versionCode = generateVersionCode()
         buildConfigField "String", "BUGFENDER_API_KEY", getBugfenderApiKey()
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -115,6 +116,7 @@ release {
 }
 
 dependencies {
+    implementation 'com.android.support:multidex:1.0.3'
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0-beta-2'
 

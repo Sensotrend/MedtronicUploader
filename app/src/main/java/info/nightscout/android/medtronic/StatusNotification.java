@@ -86,7 +86,7 @@ public class StatusNotification {
         Intent notificationIntent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
 
-        mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+//        mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         String channel = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? "status" : "";
 
@@ -110,10 +110,10 @@ public class StatusNotification {
 
     public void updateNotification() {
         Log.d(TAG, "updateNotification called");
-        if (updateThread == null) {
-            updateThread = new Update();
-            updateThread.start();
-        }
+//        if (updateThread == null) {
+//            updateThread = new Update();
+//            updateThread.start();
+//        }
     }
 
     private Update updateThread;
