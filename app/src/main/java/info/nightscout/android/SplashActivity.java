@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import info.nightscout.android.medtronic.MainActivity;
+import info.nightscout.android.medtronic.setup.SetupActivity;
 
 /**
  * Created by lgoedhart on 18/06/2016.
@@ -14,7 +15,12 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent intent = new Intent(this, MainActivity.class);
+        final Intent intent;
+        if (SetupActivity.needsStarting(this)) {
+            intent = new Intent(this, SetupActivity.class);
+        } else {
+            intent = new Intent(this, MainActivity.class);
+        }
         startActivity(intent);
         finish();
     }
