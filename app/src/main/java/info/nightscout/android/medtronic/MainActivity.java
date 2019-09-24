@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
                 )
                 .withTranslucentStatusBar(false)
                 .withToolbar(toolbar)
-                .withActionBarDrawerToggle(true)
+                .withActionBarDrawerToggle(false)
                 .withSelectedItem(-1)
                 .addDrawerItems(
                         itemSettings,
@@ -661,7 +661,7 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
 
         PreferenceManager.getDefaultSharedPreferences(getBaseContext()).unregisterOnSharedPreferenceChangeListener(this);
 
-        if (!mEnableCgmService) stopMasterService();
+        /*if (!mEnableCgmService)*/ stopMasterService();
         if (realmAsyncTask != null) realmAsyncTask.cancel();
 
         unregisterReceiver(mVisualizationReceiver);
@@ -1101,7 +1101,7 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
         textViewTrend.setText(trendString);
         textViewTrend.setRotation(trendRotation);
 
-        mUiRefreshHandler.post(mUiRefreshRunnable);
+//        mUiRefreshHandler.post(mUiRefreshRunnable);
     }
 
     private class RefreshDisplayRunnable implements Runnable {
