@@ -10,13 +10,28 @@
     tools:context=".medtronic.setup.ui.address.AddressFragment"
     >
 
-    <ImageView
-        android:id="@+id/logo"
+    <android.support.constraint.Guideline
+        android:id="@+id/logo_gl_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".25"
+        />
+    <android.support.constraint.Guideline
+        android:id="@+id/logo_gl_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".75"
+        />
+    <info.nightscout.android.utils.TrimmingImageView
+        android:id="@+id/logo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:src="@drawable/ic_sensotrend"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@id/logo_gl_left"
+        app:layout_constraintEnd_toEndOf="@id/logo_gl_right"
         app:layout_constraintTop_toTopOf="parent"
         />
 

@@ -43,6 +43,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -228,6 +229,26 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
         mEnableCgmService = Eula.show(this, mPrefs)
                 && mPrefs.getBoolean(getString(R.string.key_eulaAccepted), getResources().getBoolean(R.bool.default_eulaAccepted));
 
+        final View logContainer = findViewById(R.id.log_container);
+        final View logSpacer = findViewById(R.id.log_spacer);
+        final TextView logButton = findViewById(R.id.log_button);
+        logButton.setText(String.valueOf(GoogleMaterial.Icon.gmd_format_align_left.getCharacter()));
+        logButton.setTypeface(GoogleMaterial.Icon.gmd_format_align_left.getTypeface().getTypeface(this));
+        logButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) logSpacer.getLayoutParams();
+                if (logContainer.getVisibility() != View.VISIBLE) {
+                    logContainer.setVisibility(View.VISIBLE);
+                    layoutParams.weight = 1;
+                } else {
+                    logContainer.setVisibility(View.GONE);
+                    layoutParams.weight = 2;
+                }
+                logSpacer.setLayoutParams(layoutParams);
+            }
+        });
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
@@ -269,18 +290,17 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
                 .withIcon(GoogleMaterial.Icon.gmd_update)
                 .withSelectable(false);
 
-        assert toolbar != null;
         DrawerBuilder drawerBuilder = new DrawerBuilder();
         drawerBuilder
                 .withActivity(this)
                 .withAccountHeader(new AccountHeaderBuilder()
                         .withActivity(this)
+                        .withAccountHeader(R.layout.drawer_header)
                         .withCompactStyle(true)
-                        .withHeaderBackground(R.drawable.sensotrend_expand)
+                        .withHeaderBackground(R.drawable.ic_sensotrend)
                         .build()
                 )
                 .withTranslucentStatusBar(false)
-                .withToolbar(toolbar)
                 .withActionBarDrawerToggle(false)
                 .withSelectedItem(-1)
                 .addDrawerItems(

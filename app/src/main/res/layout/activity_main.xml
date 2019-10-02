@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout
+    <!--<android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
@@ -21,7 +21,39 @@
 
         </android.support.v7.widget.Toolbar>
 
-    </android.support.design.widget.AppBarLayout>
+    </android.support.design.widget.AppBarLayout>-->
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <android.support.constraint.Guideline
+            android:id="@+id/logo_gl_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".25"
+            />
+        <android.support.constraint.Guideline
+            android:id="@+id/logo_gl_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".75"
+            />
+        <info.nightscout.android.utils.TrimmingImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_sensotrend"
+            android:scaleType="fitCenter"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@id/logo_gl_left"
+            app:layout_constraintEnd_toEndOf="@id/logo_gl_right"
+            />
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/view_sgv"
@@ -101,6 +133,12 @@
 
     </android.support.constraint.ConstraintLayout>
 
+    <View
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -179,12 +217,6 @@
             />
 
     </android.support.constraint.ConstraintLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:minHeight="1px"
-        android:background="#2888"
-        />
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -206,11 +238,41 @@
 
     </android.support.constraint.ConstraintLayout>
 
+    <View
+        android:id="@+id/log_spacer"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        />
+
+    <TextView
+        android:id="@+id/log_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_margin="8dp"
+        android:padding="8dp"
+        android:background="?selectableItemBackground"
+        android:textSize="18sp"
+        android:text="Log"
+        />
+
     <android.support.design.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/log_container"
         android:saveEnabled="false"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:visibility="gone"
+        >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:minHeight="1px"
+            android:background="#2888"
+            android:layout_gravity="top"
+            />
 
         <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
             android:saveEnabled="false"
