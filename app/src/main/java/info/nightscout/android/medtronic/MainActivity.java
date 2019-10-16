@@ -64,6 +64,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
 import info.nightscout.android.R;
@@ -229,6 +230,8 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
         mEnableCgmService = Eula.show(this, mPrefs)
                 && mPrefs.getBoolean(getString(R.string.key_eulaAccepted), getResources().getBoolean(R.bool.default_eulaAccepted));
 
+        final AtomicInteger clickCount = new AtomicInteger(0);
+
         final View logContainer = findViewById(R.id.log_container);
         final View logSpacer = findViewById(R.id.log_spacer);
         final TextView logButton = findViewById(R.id.log_button);
@@ -246,6 +249,7 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
                     layoutParams.weight = 2;
                 }
                 logSpacer.setLayoutParams(layoutParams);
+                clickCount.set(0);
             }
         });
 
@@ -291,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
                 .withSelectable(false);
 
         DrawerBuilder drawerBuilder = new DrawerBuilder();
-        drawerBuilder
+        final Drawer drawer = drawerBuilder
                 .withActivity(this)
                 .withAccountHeader(new AccountHeaderBuilder()
                         .withActivity(this)
@@ -354,6 +358,8 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
                     }
                 })
                 .build();
+
+        DrawerEnabler.make(this, drawer, findViewById(R.id.logo), findViewById(R.id.root), clickCount);
 
         landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
