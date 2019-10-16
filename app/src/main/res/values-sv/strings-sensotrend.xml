@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wizard_or">ELLER</string>
+    <string name="wizard_continue">Fortsätt</string>
+    <string name="main_menu__wizard">Anslutningsinställningar</string>
+</resources>

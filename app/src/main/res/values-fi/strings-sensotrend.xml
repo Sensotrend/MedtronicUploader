@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wizard_or">TAI</string>
+    <string name="wizard_continue">Jatka</string>
+    <string name="main_menu__wizard">Yhteysasetukset</string>
+</resources>

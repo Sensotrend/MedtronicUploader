@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
                 .withIcon(GoogleMaterial.Icon.gmd_settings)
                 .withSelectable(false);
         final PrimaryDrawerItem itemEndpoint = new PrimaryDrawerItem()
-                .withName("Setup endpoint")
+                .withName(R.string.main_menu__wizard)
                 .withIcon(GoogleMaterial.Icon.gmd_room_service)
                 .withSelectable(false);
         final PrimaryDrawerItem itemRegisterUsb = new PrimaryDrawerItem()
