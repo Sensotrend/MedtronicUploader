@@ -208,7 +208,8 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
 
         // Disable battery optimization to avoid missing values on 6.0+
         // taken from https://github.com/NightscoutFoundation/xDrip/blob/master/app/src/main/java/com/eveningoutpost/dexdrip/Home.java#L277L298
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        // ST NOTE: We don't run this as background, so ignore this.
+        if (false && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             final String packageName = getPackageName();
             final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 

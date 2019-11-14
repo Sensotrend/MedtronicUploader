@@ -270,8 +270,8 @@
 
     <!-- Defaults -->
 
-    <bool name="default_mmolxl">false</bool>
-    <bool name="default_mmolDecimals">false</bool>
+    <bool name="default_mmolxl">true</bool>
+    <bool name="default_mmolDecimals">true</bool>
     <string translatable="false" name="default_pollInterval">300000</string>
     <bool name="default_doublePollOnPumpAway">false</bool>
     <string translatable="false" name="default_lowBatPollInterval">900000</string>
@@ -311,8 +311,8 @@
     <bool name="default_sysEnableUsbPermissionDialog">false</bool>
 
     // debug
-    <bool name="default_dbgCrashlytics">true</bool>
-    <bool name="default_dbgAnswers">true</bool>
+    <bool name="default_dbgCrashlytics">false</bool>
+    <bool name="default_dbgAnswers">false</bool>
     <bool name="default_dbgRemoteLogcat">false</bool>
     <string translatable="false" name="default_dbgLogLevel">1</string>
     <bool name="default_dbgEnableExtendedErrors">false</bool>
@@ -322,36 +322,36 @@
     <bool name="default_nsEnableTreatments">true</bool>
     <bool name="default_nsEnableBasalTreatments">true</bool>
     <bool name="default_nsEnableBolusTreatments">true</bool>
-    <string translatable="false" name="default_nsEnteredBy" />
+    <string translatable="false" name="default_nsEnteredBy">Sensotrend Medtronic Uploader</string>
 
-    <bool name="default_nsEnableDeviceStatus">true</bool>
-    <bool name="default_nsEnableDevicePUMP">true</bool>
+    <bool name="default_nsEnableDeviceStatus">false</bool>
+    <bool name="default_nsEnableDevicePUMP">false</bool>
     <string translatable="false" name="default_nsDeviceName" />
 
     <bool name="default_nsEnableFingerBG">true</bool>
     <bool name="default_nsEnableCalibrationInfo">false</bool>
 
-    <bool name="default_nsEnableSensorChange">true</bool>
-    <bool name="default_nsEnableReservoirChange">true</bool>
+    <bool name="default_nsEnableSensorChange">false</bool>
+    <bool name="default_nsEnableReservoirChange">false</bool>
     <string translatable="false" name="default_nsCannulaChangeThreshold">"0"</string>
     <bool name="default_nsEnableInsulinChange">false</bool>
     <string translatable="false" name="default_nsInsulinChangeThreshold">"0"</string>
-    <bool name="default_nsEnableBatteryChange">true</bool>
+    <bool name="default_nsEnableBatteryChange">false</bool>
     <bool name="default_nsEnableLifetimes">false</bool>
 
-    <bool name="default_nsEnableProfileUpload">true</bool>
+    <bool name="default_nsEnableProfileUpload">false</bool>
     <bool name="default_nsEnableProfileSingle">true</bool>
     <bool name="default_nsEnableProfileOffset">true</bool>
     <string translatable="false" name="default_nsProfileDefault">0</string>
     <string translatable="false" name="default_nsActiveInsulinTime">3</string>
     <bool name="default_nsEnablePatternChange">true</bool>
 
-    <bool name="default_nsEnableAlarms">true</bool>
-    <bool name="default_nsAlarmExtended">true</bool>
+    <bool name="default_nsEnableAlarms">false</bool>
+    <bool name="default_nsAlarmExtended">false</bool>
     <bool name="default_nsAlarmCleared">false</bool>
     <string translatable="false" name="default_nsAlarmTTL">24</string>
 
-    <bool name="default_nsEnableSystemStatus">true</bool>
+    <bool name="default_nsEnableSystemStatus">false</bool>
     <bool name="default_nsSystemStatusUsbErrors">true</bool>
     <bool name="default_nsSystemStatusConnection">false</bool>
     <bool name="default_nsSystemStatusBatteryLow">false</bool>
@@ -387,7 +387,7 @@
     <bool name="default_nsEnableInsertBGasCGM">false</bool>
 
     <string translatable="false" name="default_nsGramsPerExchange">15</string>
-    <bool name="default_nsEnableDailyTotals">true</bool>
+    <bool name="default_nsEnableDailyTotals">false</bool>
     <bool name="default_nsEnableFormatHTML">true</bool>
     <bool name="default_nsEnableMedtronicTrendStyle">false</bool>
 

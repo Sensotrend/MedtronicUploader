@@ -58,6 +58,7 @@ public class SetupActivity extends AppCompatActivity implements SetupNavigationH
         switch (part) {
             case ADDRESS:
                 if (!getIntent().getBooleanExtra(INTENT_RETURN, false)) {
+                    setupOtherDefaults();
                     startActivity(new Intent(this, MainActivity.class));
                 }
                 finish();
@@ -66,5 +67,12 @@ public class SetupActivity extends AppCompatActivity implements SetupNavigationH
                 Log.e(TAG, "Unexpected finished part: " + part);
                 break;
         }
+    }
+
+    private void setupOtherDefaults() {
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        preferences.edit()
+                .putBoolean(getString(R.string.key_EnableRESTUpload), true)
+                .apply();
     }
 }
