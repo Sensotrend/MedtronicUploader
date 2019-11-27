@@ -1,5 +1,6 @@
 package info.nightscout.android.medtronic;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -25,28 +26,44 @@ final class DrawerEnabler {
         final DrawerLayout drawerLayout = drawer.getDrawerLayout();
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         final GestureDetectorCompat touchListener = new GestureDetectorCompat(context, new GestureDetector.SimpleOnGestureListener() {
+            private static final int CLICKS_NEEDED = 10;
+
             @Override
             public boolean onDown(MotionEvent e) {
                 return true;
             }
 
             @Override
-            public boolean onSingleTapUp(MotionEvent e) {
-                if (clickCount.incrementAndGet() == 10) {
-                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-                    activatingView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                if (clickCount.incrementAndGet() == CLICKS_NEEDED) {
+                    activate();
                 }
                 return true;
+            }
+
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                if (clickCount.incrementAndGet() == CLICKS_NEEDED || clickCount.incrementAndGet() == CLICKS_NEEDED) {
+                    activate();
+                }
+                return true;
+            }
+
+            private void activate() {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                activatingView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             }
         });
 
         activatingView.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return touchListener.onTouchEvent(event);
             }
         });
         rootView.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 clickCount.set(0);
