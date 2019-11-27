@@ -29,6 +29,7 @@ public final class VisualizationReceiver extends BroadcastReceiver {
     private static final String ACTION_DOWNLOAD_STATUS = "info.nightscout.android.medtronic.vrDlStatus";
     private static final String ACTION_UPLOAD_STATUS = "info.nightscout.android.medtronic.vrUlStatus";
     private static final String ACTION_STATUS_EXTRA_STATUS = "vrStatus";
+    private static final String EXTRA_ERROR = "vrError";
 
     public static final int STATUS_DOWNLOAD_CONNECTED = 1;
     public static final int STATUS_DOWNLOAD_DOWNLOADING = 2;
@@ -47,6 +48,24 @@ public final class VisualizationReceiver extends BroadcastReceiver {
     public static Intent downloadStatus(@DownloadStatus int status) {
         final Intent intent = new Intent(ACTION_DOWNLOAD_STATUS);
         intent.putExtra(ACTION_STATUS_EXTRA_STATUS, status);
+        return intent;
+    }
+
+    public static final int ERROR_NONE = 0;
+    public static final int ERROR_PUMP_NOISE = 1;
+    public static final int ERROR_CNL = 2;
+    @IntDef({
+            ERROR_NONE,
+            ERROR_PUMP_NOISE,
+            ERROR_CNL
+    })
+    @interface DownloadError {}
+
+    @CheckResult
+    public static Intent downloadStatus(@DownloadStatus int status, @DownloadError int error) {
+        final Intent intent = new Intent(ACTION_DOWNLOAD_STATUS);
+        intent.putExtra(ACTION_STATUS_EXTRA_STATUS, status);
+        intent.putExtra(EXTRA_ERROR, error);
         return intent;
     }
 
@@ -114,11 +133,13 @@ public final class VisualizationReceiver extends BroadcastReceiver {
 
         final ColorStateList stateList = new ColorStateList(
                 new int[][] {
+                        {android.R.attr.state_enabled, android.R.attr.state_selected},
                         {android.R.attr.state_enabled},
                         {-android.R.attr.state_enabled, android.R.attr.state_selected},
                         {-android.R.attr.state_enabled}
                 },
                 new int [] {
+                        ContextCompat.getColor(context, R.color.warning_icon),
                         ContextCompat.getColor(context, R.color.enabled_icon),
                         ContextCompat.getColor(context, R.color.error_icon),
                         ContextCompat.getColor(context, R.color.disabled_icon)
@@ -207,7 +228,9 @@ public final class VisualizationReceiver extends BroadcastReceiver {
     private static class State {
         boolean hasMeter;
         boolean hasPump;
+        boolean isPumpErrorAWarning;
         boolean hasPumpError;
+        boolean hasCNLError;
         boolean isReading;
         boolean _isReadAnimating;
         boolean isUploading;
@@ -258,11 +281,14 @@ public final class VisualizationReceiver extends BroadcastReceiver {
 
             case ACTION_DOWNLOAD_STATUS: {
                 final int status = intent.getIntExtra(ACTION_STATUS_EXTRA_STATUS, -1);
+                final int error = intent.getIntExtra(EXTRA_ERROR, ERROR_NONE);
                 Log.d(TAG, "Status: " + status);
                 switch (status) {
                     case STATUS_DOWNLOAD_CONNECTED:
                         mState.hasMeter = true;
                         mState.hasPumpError = false;
+                        mState.isPumpErrorAWarning = false;
+                        mState.hasCNLError = false;
                         mState.uploadDone = false;
                         break;
 
@@ -273,6 +299,15 @@ public final class VisualizationReceiver extends BroadcastReceiver {
 
                     case STATUS_DOWNLOAD_DONE:
                         mState.isReading = false;
+                        if (error == ERROR_PUMP_NOISE) {
+                            mState.isPumpErrorAWarning = true;
+                            mState.hasPumpError = true;
+                        } else if (error == ERROR_CNL) {
+                            mState.hasCNLError = true;
+                        } else if (error == ERROR_NONE) {
+                            mState.isPumpErrorAWarning = false;
+                            mState.hasCNLError = false;
+                        }
                         break;
 
                     case STATUS_DOWNLOAD_PUMP_ERROR:
@@ -338,7 +373,18 @@ public final class VisualizationReceiver extends BroadcastReceiver {
     private void updateState() {
         devicePump.setEnabled(mState.hasPump);
         deviceMeter.setEnabled(mState.hasMeter);
-        devicePump.setSelected(mState.hasPumpError);
+        if (mState.hasPumpError) {
+            if (mState.isPumpErrorAWarning) {
+                devicePump.setEnabled(true);
+            } else {
+                devicePump.setEnabled(false);
+            }
+            devicePump.setSelected(true);
+        } else {
+            devicePump.setEnabled(mState.hasPump);
+            devicePump.setSelected(false);
+        }
+        deviceMeter.setSelected(mState.hasCNLError);
 
         if (mState.isReading && !mState._isReadAnimating) {
             deviceIcon.setImageDrawable(deviceDrawable);

@@ -310,6 +310,7 @@ CNL: unpaired PUMP: unpaired UPLOADER: unregistered = "Invalid message received 
 
             timePollStarted = System.currentTimeMillis();
             long nextpoll = 0;
+            boolean pumpNoise = false;
 
             try {
                 // note: Realm use only in this thread!
@@ -581,6 +582,7 @@ CNL: unpaired PUMP: unpaired UPLOADER: unregistered = "Invalid message received 
                             UserLogMessage.sendN(mContext, UserLogMessage.TYPE.WARN, R.string.ul_error__communication_busy_noisy);
                             UserLogMessage.sendE(mContext, UserLogMessage.TYPE.WARN, String.format("{id;%s} %s", R.string.ul_error__communication, e.getMessage()));
                         }
+                        pumpNoise = true;
 
                     } catch (TimeoutException e) {
                         commsError++;
@@ -655,7 +657,13 @@ CNL: unpaired PUMP: unpaired UPLOADER: unregistered = "Invalid message received 
                     RemoveOutdatedRecords();
                     statusWarnings();
 
-                    sendBroadcast(VisualizationReceiver.downloadStatus(VisualizationReceiver.STATUS_DOWNLOAD_DONE));
+                    int statusError = VisualizationReceiver.ERROR_NONE;
+                    if (commsError > 0) {
+                        statusError = VisualizationReceiver.ERROR_CNL;
+                    } else if (pumpNoise) {
+                        statusError = VisualizationReceiver.ERROR_PUMP_NOISE;
+                    }
+                    sendBroadcast(VisualizationReceiver.downloadStatus(VisualizationReceiver.STATUS_DOWNLOAD_DONE, statusError));
                 }
 
             } catch (Exception e) {
