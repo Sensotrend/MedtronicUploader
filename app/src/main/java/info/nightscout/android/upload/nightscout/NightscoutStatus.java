@@ -179,6 +179,7 @@ public class NightscoutStatus {
                                 UserLogMessage.send(mContext, UserLogMessage.TYPE.HELP,
                                         R.string.ul_ns__help_config_devicestatus);
                             }
+                            if (false) { // ST: Separate pump fields are not supported. Don't nag 'bout 'em.
                             if (ns_pumpFields.equals("")) {
                                 UserLogMessage.send(mContext, UserLogMessage.TYPE.HELP,
                                         R.string.ul_ns__help_config_pumpfields);
@@ -195,6 +196,7 @@ public class NightscoutStatus {
                                 if (!(ns_pumpFields.toLowerCase().contains("clock")))
                                     UserLogMessage.send(mContext, UserLogMessage.TYPE.HELP,
                                             R.string.ul_ns__help_config_pumpfields_clock);
+                            }
                             }
                         }
 
