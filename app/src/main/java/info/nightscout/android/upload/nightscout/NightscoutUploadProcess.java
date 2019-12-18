@@ -222,6 +222,7 @@ public class NightscoutUploadProcess {
                 for (EntriesEndpoints.Entry item : list) {
 
                     // v0.6.1 did not record the pump MAC, remove and rewrite keys with mac as needed
+                    if (false) { // ST: Do not run "if" below, as the above statement is false for us and delete is not actually supported at all.
                     if (count > 1 || item.getPumpMAC600() == null ||
                             (item.getPumpMAC600().equals(mac) &&
                                     mode == NightscoutItem.MODE.UPDATE || mode == NightscoutItem.MODE.DELETE)) {
@@ -238,9 +239,14 @@ public class NightscoutUploadProcess {
 
                     // in check mode and 1 item already in nightscout
                     else return;
-
+                    } // ST: if (false)
                     count--;
                 }
+            }
+
+            if (entry.getDevice() == null) {
+                Log.d(TAG, "Adding missing device info for " + key + " " + entry.getDateString());
+                entry.setDevice(device);
             }
 
             if (mode == NightscoutItem.MODE.UPDATE || mode == NightscoutItem.MODE.CHECK) {
@@ -278,6 +284,7 @@ public class NightscoutUploadProcess {
                 for (TreatmentsEndpoints.Treatment item : list) {
 
                     // v0.6.1 did not record the pump MAC, remove and rewrite keys with mac as needed
+                    if (false) { // ST: Do not run "if" below, as the above statement is false for us and delete is not actually supported at all.
                     if (count > 1 || item.getPumpMAC600() == null ||
                             (item.getPumpMAC600().equals(mac) &&
                                     mode == NightscoutItem.MODE.UPDATE || mode == NightscoutItem.MODE.DELETE)) {
@@ -296,6 +303,7 @@ public class NightscoutUploadProcess {
 
                     // in check mode and 1 item already in nightscout
                     else return;
+                    } // ST: if (false)
 
                     count--;
                 }
