@@ -79,11 +79,11 @@ android {
     }
 
     defaultConfig {
-        applicationId "info.nightscout.android"
+        applicationId "com.sensotrend.mobile.medtronic"
         minSdkVersion 14
         targetSdkVersion 28
-        versionName = dev ? devName : generateVersionName()
-        versionCode = generateVersionCode()
+        versionName = "0.1.0"  // dev ? devName : generateVersionName()
+        versionCode = 1  // generateVersionCode()
         buildConfigField "String", "BUGFENDER_API_KEY", getBugfenderApiKey()
         multiDexEnabled true
     }
