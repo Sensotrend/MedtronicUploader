@@ -9,6 +9,7 @@ import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LevelListDrawable;
 import android.hardware.usb.UsbManager;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.CheckResult;
@@ -20,6 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import info.nightscout.android.BuildConfig;
 import info.nightscout.android.R;
 import info.nightscout.android.medtronic.service.MasterService.Constants;
 
@@ -226,6 +228,8 @@ public final class VisualizationReceiver extends BroadcastReceiver {
     };
 
     private static class State {
+        private static final String BUNDLE_KEY = "vrs";
+
         boolean hasMeter;
         boolean hasPump;
         boolean isPumpErrorAWarning;
@@ -236,9 +240,72 @@ public final class VisualizationReceiver extends BroadcastReceiver {
         boolean isUploading;
         boolean uploadError;
         boolean uploadDone;
+
+        @NonNull
+        @Override
+        public String toString() {
+            if (BuildConfig.DEBUG) {
+                return "State{" +
+                        "hasMeter=" + hasMeter +
+                        ", hasPump=" + hasPump +
+                        ", isPumpErrorAWarning=" + isPumpErrorAWarning +
+                        ", hasPumpError=" + hasPumpError +
+                        ", hasCNLError=" + hasCNLError +
+                        ", isReading=" + isReading +
+                        ", _isReadAnimating=" + _isReadAnimating +
+                        ", isUploading=" + isUploading +
+                        ", uploadError=" + uploadError +
+                        ", uploadDone=" + uploadDone +
+                        '}';
+            } else {
+                return super.toString();
+            }
+        }
+
+        void saveInstanceState(@NonNull Bundle out) {
+            out.putBooleanArray(BUNDLE_KEY, new boolean[] {
+                    hasMeter,
+                    hasPump,
+                    isPumpErrorAWarning,
+                    hasPumpError,
+                    hasCNLError,
+                    isReading,
+                    _isReadAnimating,
+                    isUploading,
+                    uploadError,
+                    uploadDone
+            });
+        }
+
+        @SuppressWarnings("UnusedAssignment")
+        void restoreInstanceState(@NonNull Bundle in) {
+            final boolean[] arr = in.getBooleanArray(BUNDLE_KEY);
+            if (arr == null) {
+                return;
+            }
+            int i = 0;
+            hasMeter = arr[i++];
+            hasPump = arr[i++];
+            isPumpErrorAWarning = arr[i++];
+            hasPumpError = arr[i++];
+            hasCNLError = arr[i++];
+            isReading = arr[i++];
+            _isReadAnimating = arr[i++];
+            isUploading = arr[i++];
+            uploadError = arr[i++];
+            uploadDone = arr[i++];
+        }
     }
 
-    private State mState = new State();
+    private final State mState = new State();
+
+    public void saveInstanceState(@NonNull Bundle out) {
+        mState.saveInstanceState(out);
+    }
+
+    public void restoreInstanceState(@NonNull Bundle in) {
+        mState.restoreInstanceState(in);
+    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -363,6 +430,7 @@ public final class VisualizationReceiver extends BroadcastReceiver {
 
     public void onResume() {
         mIsHostResumed = true;
+        updateState();
     }
 
     public void onPause() {

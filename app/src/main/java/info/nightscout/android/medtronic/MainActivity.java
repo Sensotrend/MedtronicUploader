@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PersistableBundle;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -470,10 +471,21 @@ public class MainActivity extends AppCompatActivity implements OnSharedPreferenc
                 (ImageView) findViewById(R.id.cloud_icon),
                 (ImageView) findViewById(R.id.check_icon)
         );
+        if (savedInstanceState != null) {
+            mVisualizationReceiver.restoreInstanceState(savedInstanceState);
+        }
         registerReceiver(mVisualizationReceiver, VisualizationReceiver.createReceiverFilter());
     }
 
     private VisualizationReceiver mVisualizationReceiver;
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        if (mVisualizationReceiver != null) {
+            mVisualizationReceiver.saveInstanceState(outState);
+        }
+    }
 
     private void setScreenSleepMode() {
         if (mChart != null) {
